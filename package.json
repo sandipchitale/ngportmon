@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "14.0.0",
-  "description": "Angular 17 with Electron 27 (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "ngportmon",
+  "version": "17.0.0",
+  "description": "Angular 17 with Electron 27 (Typescript + SASS + Hot Reload) + Primeng based TCP port monitor",
+  "homepage": "https://github.com/sandipchitale/ngportmon",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Sandip Chitale",
+    "email": "sandipchitale@gmail.com"
   },
   "keywords": [
     "angular",

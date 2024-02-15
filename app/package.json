@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "description": "Angular Electron sample",
+  "name": "ngportmon",
+  "description": "Angular Primeng Electron based TCP port monitor",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Sandip Chitale",
+    "email": "sandipchitale@gmail.com"
   },
-  "version": "14.0.0",
+  "version": "17.0.0",
   "main": "main.js",
   "private": true,
   "dependencies": {
