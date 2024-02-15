@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
   }
 
   public toggleMonitoring(event: ToggleButtonChangeEvent) {
+    this.netstat();
     // first clear
     if (this.intervalId) {
       clearTimeout(this.intervalId);
@@ -90,6 +91,7 @@ export class AppComponent implements OnInit {
       this.stopMonitoring();
     }
   }
+
   public startMonitoring() {
     this.netstat();
     this.intervalId = setInterval(
