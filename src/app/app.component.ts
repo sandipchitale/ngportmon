@@ -195,31 +195,37 @@ export class AppComponent implements OnInit {
 
     this.wait = true;
     void this.ngZone.runOutsideAngular(() => {
-      child_process.exec(`netstat -anop tcp`, (err, stdout : string) => {
+      const netstatCommand: string = (os.platform() === 'win32' ?  'netstat -anop tcp' : 'netstat -ant4p');
+      child_process.exec(netstatCommand, (err, stdout : string) => {
         if (err) {
           console.error(err);
           return;
         }
         void this.ngZone.run(() => {
+          const listening: string = os.platform() === 'win32' ? 'LISTENING' : 'LISTEN';
+          const indexOffset: number = os.platform() === 'win32' ? 0 : 2;
           this.wait = false;
           this.updatedAt = new Date();
           this.ports = [];
           const portLinesArray = stdout.split(/\r?\n/)
             .filter((portline) => portline.trim().length > 0)
             .map((portline) => portline.trim())
-            .filter((portline) => !portline.trim().startsWith('Active Connections'))
+            .filter((portline) => !portline.trim().startsWith('Active '))
             .filter((portline) => !portline.trim().startsWith('Proto'));
           portLinesArray.forEach(portLine => {
             const portLineParts = portLine.split(/\s+/);
-            const port = portLineParts[1].replace(/[^:]+:/, '');
+            const port = portLineParts[1 + indexOffset].replace(/[^:]+:/, '');
             if (onlyPortsArray.length === 0 || onlyPortsArray.includes(port)) {
-              if (!this.listeningOnly || portLineParts[3] === 'LISTENING') {
+              if (!this.listeningOnly || portLineParts[3 + indexOffset] === listening) {
+                if (os.platform() !== 'win32') {
+                  portLineParts[4 + indexOffset] =  portLineParts[4 + indexOffset].replace(/\/.+/, '')
+                }
                 this.ports.push(
                   {
                     protocol: portLineParts[0],
                     local: port,
-                    status: portLineParts[3],
-                    pid: portLineParts[4]
+                    status: portLineParts[3 + indexOffset],
+                    pid: portLineParts[4 + indexOffset]
                   },
                 );
               }
