@@ -25,7 +25,7 @@ const DARK_THEME =  'dark-theme';
 export class AppComponent implements OnInit {
   darkTheme = false;
 
-  public onlyPorts = '';
+  public onlyPorts = '5432,8080,8765';
   public onlyPortsArray = [];
   public monitor = true;
   public listeningOnly = true;

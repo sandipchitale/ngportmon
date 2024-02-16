@@ -69,23 +69,26 @@
     scrollHeight="flex"
     responsiveLayout="scroll"
     (sortFunction)="customSort($event)"
-    [customSort]="true">
+    [customSort]="true"
+    sortField="local"
+    [sortOrder]="1"
+  >
     <ng-template pTemplate="header">
       <tr>
         <th pResizableColumn pSortableColumn="protocol" class="pl-4">Protocol <p-sortIcon field="protocol"></p-sortIcon></th>
-        <th pResizableColumn pSortableColumn="local"    class="p-text-right">Local Port <p-sortIcon field="local"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="local"    class="text-right">Local Port <p-sortIcon field="local"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="status"   >Status <p-sortIcon field="status"></p-sortIcon></th>
-        <th pResizableColumn pSortableColumn="pid"      class="p-text-right">PID <p-sortIcon field="pid"></p-sortIcon></th>
-        <th pResizableColumn                            >&nbsp;</th>
+        <th pResizableColumn pSortableColumn="pid"      class="text-right">PID <p-sortIcon field="pid"></p-sortIcon></th>
+        <th pResizableColumn                            class="text-center" style="max-width: 2rem;">&nbsp;</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-port>
       <tr>
         <td class="pl-4">{{port.protocol}}</td>
-        <td class="p-text-right">{{port.local}}</td>
+        <td class="text-right">{{port.local}}</td>
         <td>{{port.status}}</td>
-        <td class="p-text-right">{{port.pid}}</td>
-        <td class="p-text-right">
+        <td class="text-right">{{port.pid}}</td>
+        <td class="text-center" style="max-width: 2rem;">
           <p-button
             styleClass="no-drag p-button-danger"
             icon="pi pi-power-off"
