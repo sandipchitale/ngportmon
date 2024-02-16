@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   public onlyPorts = '5432,8080,8765';
   public onlyPortsArray = [];
   public monitor = true;
-  public listeningOnly = true;
+  private _listeningOnly = true;
   public wait = false;
 
   public updatedAt = new Date();
@@ -75,6 +75,14 @@ export class AppComponent implements OnInit {
         themeLink.href = LIGHT_THEME + '.css';
       }
     }
+  }
+
+  get listeningOnly(): boolean {
+    return this._listeningOnly;
+  }
+
+  set listeningOnly(value: boolean) {
+    this._listeningOnly = value;
   }
 
   public toggleMonitoring(event: ToggleButtonChangeEvent) {
@@ -240,14 +248,6 @@ export class AppComponent implements OnInit {
   isFile(p: string): boolean {
     try {
       return fs.statSync(p) && fs.statSync(p).isFile();
-    } catch (e) {
-      return false;
-    }
-  }
-
-  isDirectory(p: string): boolean {
-    try {
-      return fs.statSync(p) && fs.statSync(p).isDirectory();
     } catch (e) {
       return false;
     }
