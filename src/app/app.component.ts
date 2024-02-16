@@ -255,7 +255,7 @@ export class AppComponent implements OnInit {
 
   public github() {
     void (async () => {
-      await electron.shell.openExternal('https://github.com/sandipchitale/portmon/');
+      await electron.shell.openExternal('https://github.com/sandipchitale/ngportmon/');
     })();
   }
 
