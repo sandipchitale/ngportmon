@@ -103,18 +103,6 @@
         "hash": "5487230254953256576"
       },
       {
-        "file": ".github/workflows/macos.yml",
-        "hash": "5633952015166059360"
-      },
-      {
-        "file": ".github/workflows/ubuntu.yml",
-        "hash": "10068013290062448692"
-      },
-      {
-        "file": ".github/workflows/windows.yml",
-        "hash": "9146823708887166509"
-      },
-      {
         "file": ".gitignore",
         "hash": "11137488817915347263"
       },
@@ -128,7 +116,7 @@
       },
       {
         "file": ".nx/cache/file-map.json",
-        "hash": "17696196418022923583"
+        "hash": "7175692440918703267"
       },
       {
         "file": ".nx/cache/lockfile.hash",
@@ -168,7 +156,7 @@
       },
       {
         "file": "README.md",
-        "hash": "4181370992103563711"
+        "hash": "13728268625905651662"
       },
       {
         "file": "_config.yml",
@@ -188,11 +176,11 @@
       },
       {
         "file": "app/package-lock.json",
-        "hash": "8408949098987909312"
+        "hash": "8911908126266336243"
       },
       {
         "file": "app/package.json",
-        "hash": "1450799955046073894"
+        "hash": "14515710101022025621"
       },
       {
         "file": "e2e/main.spec.ts",
@@ -220,11 +208,11 @@
       },
       {
         "file": "package.json",
-        "hash": "11167671208066111373"
+        "hash": "440654576428809410"
       },
       {
         "file": "src/app/app.component.html",
-        "hash": "10579014148895267773"
+        "hash": "11527281568992569151"
       },
       {
         "file": "src/app/app.component.scss",
@@ -236,7 +224,7 @@
       },
       {
         "file": "src/app/app.component.ts",
-        "hash": "4918271554035690684"
+        "hash": "9326713308757412727"
       },
       {
         "file": "src/app/app.module.ts",
@@ -308,19 +296,19 @@
       },
       {
         "file": "src/assets/icons/electron.bmp",
-        "hash": "3053844773012703857"
+        "hash": "5646094373207207952"
       },
       {
         "file": "src/assets/icons/eportmon.png",
-        "hash": "11824246994465856843"
+        "hash": "9945385965965067068"
       },
       {
         "file": "src/assets/icons/favicon.256x256.png",
-        "hash": "7904290075479152880"
+        "hash": "5000769510565943415"
       },
       {
         "file": "src/assets/icons/favicon.512x512.png",
-        "hash": "2856340912632048983"
+        "hash": "3690658049800820090"
       },
       {
         "file": "src/assets/icons/favicon.icns",
@@ -332,7 +320,7 @@
       },
       {
         "file": "src/assets/icons/favicon.png",
-        "hash": "7904290075479152880"
+        "hash": "13920772868889168854"
       },
       {
         "file": "src/dark-theme.scss",

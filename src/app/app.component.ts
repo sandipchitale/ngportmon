@@ -25,7 +25,7 @@ const DARK_THEME =  'dark-theme';
 export class AppComponent implements OnInit {
   darkTheme = false;
 
-  public onlyPorts = '5432,8080,8765';
+  public onlyPorts = '2910,4200,5432,8080,8765';
   public onlyPortsArray = [];
   public monitor = true;
   private _listeningOnly = true;
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
   public eportmonSettingsFilePath = path.join(os.homedir(), '.portmon.json');
   public eportmonSettings = {
-    ports: '2910,5432,4200,8080,8765'
+    ports: '2910,4200,5432,8080,8765'
   };
 
   intervalId: NodeJS.Timeout | undefined;
