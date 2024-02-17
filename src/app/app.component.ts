@@ -210,10 +210,8 @@ export class AppComponent implements OnInit {
           return;
         }
         void this.ngZone.run(() => {
-          const listening: string = os.platform() === 'win32' ? 'LISTENING' : 'LISTEN';
-          const indexOffset: number = os.platform() === 'win32' ? 0 : 2;
-          const pidOffset: number = os.platform() === 'darwin' ? 2 : 0;
           this.wait = false;
+          const listening: string = os.platform() === 'win32' ? 'LISTENING' : 'LISTEN';
           this.updatedAt = new Date();
           this.ports = [];
           const portLinesArray = stdout.split(/\r?\n/)
@@ -221,26 +219,29 @@ export class AppComponent implements OnInit {
             .map((portline) => portline.trim())
             .filter((portline) => !portline.trim().startsWith('Active '))
             .filter((portline) => !portline.trim().startsWith('Proto'));
+
+          const protocolIndex = 0;
+          const localAddressIndex = (os.platform() === 'win32' ? 1 : 3);
+          const statusIndex = (os.platform() === 'win32' ? 3 : 5);
+          const pidIndex = (os.platform() === 'win32' ?  4 : (os.platform() === 'darwin' ? 8 : 6));
+
           portLinesArray.forEach(portLine => {
             const portLineParts = portLine.split(/\s+/);
-            const rawPort = portLineParts[1 + indexOffset];
+            const rawPort = portLineParts[localAddressIndex];
             const ipv6 = (os.platform() === 'darwin' ? portLineParts[0] === 'tcp6' : rawPort.startsWith('['));
-            const port = (os.platform() === 'darwin' ?
-              portLineParts[1 + indexOffset].replace(/.+\.(\d+)/, '$1')
-              :
-              portLineParts[1 + indexOffset].replace(/\[.+]:/, '').replace(/[^:]+:/, ''));
+            const port = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/.+\.(\d+)/, '$1') : portLineParts[localAddressIndex].replace(/\[.+]:/, '').replace(/[^:]+:/, ''));
             if (onlyPortsArray.length === 0 || onlyPortsArray.includes(port)) {
-              if (!this.listeningOnly || portLineParts[3 + indexOffset] === listening) {
+              if (!this.listeningOnly || portLineParts[statusIndex] === listening) {
                 if (os.platform() !== 'win32') {
-                  portLineParts[4 + indexOffset] =  portLineParts[4 + indexOffset].replace(/\/.+/, '')
+                  portLineParts[pidIndex] =  portLineParts[pidIndex].replace(/\/.+/, '')
                 }
                 this.ports.push(
                   {
-                    protocol: portLineParts[0],
+                    protocol: portLineParts[protocolIndex],
                     ipv6: ipv6,
                     local: port,
-                    status: portLineParts[3 + indexOffset],
-                    pid: portLineParts[4 + indexOffset + pidOffset]
+                    status: portLineParts[statusIndex],
+                    pid: portLineParts[pidIndex]
                   },
                 );
               }
