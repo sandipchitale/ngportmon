@@ -203,7 +203,7 @@ export class AppComponent implements OnInit {
 
     this.wait = true;
     void this.ngZone.runOutsideAngular(() => {
-      const netstatCommand: string = (os.platform() === 'win32' ?  'netstat -anop tcp' : 'netstat -ant4p');
+      const netstatCommand: string = (os.platform() === 'win32' ?  'netstat -ano' : 'netstat -antp');
       child_process.exec(netstatCommand, (err, stdout : string) => {
         if (err) {
           console.error(err);
@@ -222,7 +222,9 @@ export class AppComponent implements OnInit {
             .filter((portline) => !portline.trim().startsWith('Proto'));
           portLinesArray.forEach(portLine => {
             const portLineParts = portLine.split(/\s+/);
-            const port = portLineParts[1 + indexOffset].replace(/[^:]+:/, '');
+            const rawPort = portLineParts[1 + indexOffset];
+            const ipv6 = rawPort.startsWith('[');
+            const port = portLineParts[1 + indexOffset].replace(/\[.+]:/, '').replace(/[^:]+:/, '')
             if (onlyPortsArray.length === 0 || onlyPortsArray.includes(port)) {
               if (!this.listeningOnly || portLineParts[3 + indexOffset] === listening) {
                 if (os.platform() !== 'win32') {
@@ -231,6 +233,7 @@ export class AppComponent implements OnInit {
                 this.ports.push(
                   {
                     protocol: portLineParts[0],
+                    ipv6: ipv6,
                     local: port,
                     status: portLineParts[3 + indexOffset],
                     pid: portLineParts[4 + indexOffset]

@@ -75,19 +75,21 @@
     <ng-template pTemplate="header">
       <tr>
         <th pResizableColumn pSortableColumn="protocol" class="pl-4">Protocol <p-sortIcon field="protocol"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="ipv6"     class="text-center" style="max-width: 1.5rem;">IPv6<p-sortIcon field="ipv6"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="local"    class="text-right">Local Port <p-sortIcon field="local"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="status"   >Status <p-sortIcon field="status"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="pid"      class="text-right">PID <p-sortIcon field="pid"></p-sortIcon></th>
-        <th pResizableColumn                            class="text-center" style="max-width: 1rem;">&nbsp;</th>
+        <th pResizableColumn                            class="text-center" style="max-width: 1.5rem;">&nbsp;</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-port>
       <tr>
         <td class="pl-4">{{port.protocol}}</td>
+        <td class="text-center" style="max-width: 1.5rem;">{{ port.ipv6 ? 'Yes' : 'No'}}</td>
         <td class="text-right">{{port.local}}</td>
         <td>{{port.status}}</td>
         <td class="text-right">{{port.pid}}</td>
-        <td class="text-center" style="max-width: 1rem;">
+        <td class="text-center" style="max-width: 1.5rem;">
           <p-button
             styleClass="no-drag p-button-danger"
             icon="pi pi-power-off"
