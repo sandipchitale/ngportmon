@@ -203,7 +203,7 @@ export class AppComponent implements OnInit {
 
     this.wait = true;
     void this.ngZone.runOutsideAngular(() => {
-      const netstatCommand: string = (os.platform() === 'win32' ?  'netstat -ano' : (os.platform() === 'darwin' ? 'netstat -anvp tcp': 'netstat -anp tcp'));
+      const netstatCommand: string = (os.platform() === 'win32' ?  'netstat -ano' : (os.platform() === 'darwin' ? 'netstat -anvp tcp' : 'netstat -anpt'));
       child_process.exec(netstatCommand, (err, stdout : string) => {
         if (err) {
           console.error(err);
