@@ -116,7 +116,7 @@
       },
       {
         "file": ".nx/cache/file-map.json",
-        "hash": "7175692440918703267"
+        "hash": "3690410128080768994"
       },
       {
         "file": ".nx/cache/lockfile.hash",
@@ -204,7 +204,7 @@
       },
       {
         "file": "package-lock.json",
-        "hash": "7333133495701997099"
+        "hash": "18374347151788454358"
       },
       {
         "file": "package.json",
@@ -212,7 +212,7 @@
       },
       {
         "file": "src/app/app.component.html",
-        "hash": "11527281568992569151"
+        "hash": "2975161733312762393"
       },
       {
         "file": "src/app/app.component.scss",
@@ -224,7 +224,7 @@
       },
       {
         "file": "src/app/app.component.ts",
-        "hash": "9326713308757412727"
+        "hash": "2581772054197721399"
       },
       {
         "file": "src/app/app.module.ts",

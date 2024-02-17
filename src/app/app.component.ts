@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   darkTheme = false;
 
   public onlyPorts = '2910,4200,5432,8080,8765';
-  public onlyPortsArray = [];
   public monitor = true;
   private _listeningOnly = true;
   public wait = false;
@@ -35,12 +34,13 @@ export class AppComponent implements OnInit {
 
   public eportmonSettingsFilePath = path.join(os.homedir(), '.portmon.json');
   public eportmonSettings = {
-    ports: '2910,4200,5432,8080,8765'
+    ports: this.onlyPorts
   };
 
   intervalId: NodeJS.Timeout | undefined;
 
   public ports: Array<any> = [];
+
   constructor(
     private ngZone: NgZone,
     private electronService: ElectronService,
@@ -119,6 +119,7 @@ export class AppComponent implements OnInit {
 
   // save settings
   public saveSettings() {
+    this.eportmonSettings.ports = this.onlyPorts;
     fs.writeFileSync(this.eportmonSettingsFilePath, JSON.stringify(this.eportmonSettings, null, '  '));
   }
 
@@ -126,9 +127,10 @@ export class AppComponent implements OnInit {
   public loadSettings() {
     if (this.isFile(this.eportmonSettingsFilePath)) {
       try {
-        this.eportmonSettings = JSON.parse(fs.readFileSync(this.eportmonSettingsFilePath, 'base64'));
+        this.eportmonSettings = JSON.parse(fs.readFileSync(this.eportmonSettingsFilePath, 'utf-8'));
+        this.onlyPorts = this.eportmonSettings.ports;
       } catch (ignore) {
-        //
+        console.error(ignore);
       }
     } else {
       this.saveSettings();
@@ -268,6 +270,7 @@ export class AppComponent implements OnInit {
   }
 
   public quit() {
+    this.saveSettings();
     window.close();
   }
 }
