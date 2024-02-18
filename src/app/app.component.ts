@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as child_process from 'child_process';
 import { SortEvent } from 'primeng/api';
 
-import {Component, Inject, NgZone, OnInit} from '@angular/core';
+import { Component, Inject, NgZone, OnInit } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { APP_CONFIG } from '../environments/environment';
@@ -27,8 +27,18 @@ export class AppComponent implements OnInit {
 
   public onlyPorts = '2910,4200,5432,8080,8765';
   public monitor = true;
-  private _listeningOnly = true;
   public wait = false;
+
+  LISTENING: string = os.platform() === 'win32' ? 'LISTENING' : 'LISTEN';
+
+  connectionStatuses: any[] = [
+    { name: this.LISTENING, value: 0 },
+    { name: 'ESTABLISHED',  value: 1 },
+    { name: 'CLOSE_WAIT',   value: 2 },
+    { name: 'TIME_WAIT',    value: 3 }
+  ];
+
+  _selectedConnectionStatuses: Array<number> = [0];
 
   public updatedAt = new Date();
 
@@ -77,12 +87,13 @@ export class AppComponent implements OnInit {
     }
   }
 
-  get listeningOnly(): boolean {
-    return this._listeningOnly;
+  public get selectedConnectionStatuses(): Array<number> {
+    return this._selectedConnectionStatuses;
   }
 
-  set listeningOnly(value: boolean) {
-    this._listeningOnly = value;
+  public set selectedConnectionStatuses(value: Array<number>) {
+    this._selectedConnectionStatuses = value;
+    this.doNetstat();
   }
 
   public toggleMonitoring(event: ToggleButtonChangeEvent) {
@@ -205,7 +216,11 @@ export class AppComponent implements OnInit {
 
     this.wait = true;
     void this.ngZone.runOutsideAngular(() => {
-      const netstatCommand: string = (os.platform() === 'win32' ?  'netstat -ano' : (os.platform() === 'darwin' ? 'netstat -anvp tcp' : 'netstat -anpt'));
+      const netstatCommand: string = (os.platform() === 'win32' ?
+        'netstat -ano' :
+        (os.platform() === 'darwin' ?
+          'netstat -anvp tcp' :
+          'netstat -anpt'));
       child_process.exec(netstatCommand, (err, stdout : string) => {
         if (err) {
           console.error(err);
@@ -213,7 +228,6 @@ export class AppComponent implements OnInit {
         }
         void this.ngZone.run(() => {
           this.wait = false;
-          const listening: string = os.platform() === 'win32' ? 'LISTENING' : 'LISTEN';
           this.updatedAt = new Date();
           this.ports = [];
           const portLinesArray = stdout.split(/\r?\n/)
@@ -231,15 +245,22 @@ export class AppComponent implements OnInit {
             const portLineParts = portLine.split(/\s+/);
             const rawPort = portLineParts[localAddressIndex];
             const ipv6 = (os.platform() === 'darwin' ? portLineParts[0] === 'tcp6' : rawPort.startsWith('['));
-            const port = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/.+\.(\d+)/, '$1') : portLineParts[localAddressIndex].replace(/\[.+]:/, '').replace(/[^:]+:/, ''));
+            const localAddr = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/(.+)\.\d+/, '$1') : portLineParts[localAddressIndex].replace(/(.+):\d+/, '$1'));
+            const port = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/.+\.(\d+)/, '$1') : portLineParts[localAddressIndex].replace(/.+:(\d+)/, '$1'));
             if (onlyPortsArray.length === 0 || onlyPortsArray.includes(port)) {
-              if (!this.listeningOnly || portLineParts[statusIndex] === listening) {
+              if (
+                (this._selectedConnectionStatuses.indexOf(0) !== -1 && portLineParts[statusIndex] === this.LISTENING) ||
+                (this._selectedConnectionStatuses.indexOf(1) !== -1 && portLineParts[statusIndex] === 'ESTABLISHED') ||
+                (this._selectedConnectionStatuses.indexOf(2) !== -1 && portLineParts[statusIndex] === 'CLOSE_WAIT') ||
+                (this._selectedConnectionStatuses.indexOf(3) !== -1 && portLineParts[statusIndex] === 'TIME_WAIT')
+              ) {
                 if (os.platform() !== 'win32') {
                   portLineParts[pidIndex] =  portLineParts[pidIndex].replace(/\/.+/, '')
                 }
                 this.ports.push(
                   {
                     protocol: portLineParts[protocolIndex],
+                    localAddr: localAddr,
                     ipv6: ipv6,
                     local: port,
                     status: portLineParts[statusIndex],

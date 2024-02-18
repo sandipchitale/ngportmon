@@ -5,13 +5,14 @@
       <span class="mr-2">Monitor ports:</span>
       <input type="search"
              pInputText
-             style="width: 400px;"
              class="no-drag mr-2"
+             style="width: 300px;"
              [(ngModel)]="onlyPorts"
              (keydown)="portsChanged($event)"
              placeholder="Enter comma separated set of ports"/>
       <p-toggleButton
-        styleClass="no-drag mr-2"
+        class="mr-2"
+        styleClass="no-drag"
         [onIcon]="'pi pi-pause'"
         [offIcon]="'pi pi-playlose'"
         [(ngModel)]="monitor"
@@ -22,12 +23,20 @@
         icon="pi pi-refresh"
         (click)="doNetstat()">
       </p-button>
-      <p-checkbox
-        styleClass="no-drag m2-2"
-        label="Listening only"
-        [(ngModel)]="listeningOnly"
-        [binary]="true">
-      </p-checkbox>
+<!--      <p-checkbox-->
+<!--        styleClass="no-drag mr-2"-->
+<!--        label="Listening only"-->
+<!--        [(ngModel)]="listeningOnly"-->
+<!--        [binary]="true">-->
+<!--      </p-checkbox>-->
+      <p-selectButton
+        styleClass="no-drag mr-2"
+        [options]="connectionStatuses"
+        [(ngModel)]="selectedConnectionStatuses"
+        [multiple]="true"
+        optionLabel="name"
+        optionValue="value">
+      </p-selectButton>
     </div>
     <div class="p-toolbar-group-right">
       <p-button
@@ -74,8 +83,9 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th pResizableColumn pSortableColumn="protocol" class="pl-4">Protocol <p-sortIcon field="protocol"></p-sortIcon></th>
-        <th pResizableColumn pSortableColumn="ipv6"     class="text-center" style="max-width: 1.5rem;">IPv6<p-sortIcon field="ipv6"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="protocol" class="pl-4" style="max-width: 2em;">Protocol <p-sortIcon field="protocol"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="localAddr"            >Local Addr<p-sortIcon field="localAddr"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="ipv6"     class="text-center" style="max-width: 2rem;">IPv6<p-sortIcon field="ipv6"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="local"    class="text-right">Local Port <p-sortIcon field="local"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="status"   >Status <p-sortIcon field="status"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="pid"      class="text-right">PID <p-sortIcon field="pid"></p-sortIcon></th>
@@ -84,8 +94,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-port>
       <tr>
-        <td class="pl-4">{{port.protocol}}</td>
-        <td class="text-center" style="max-width: 1.5rem;">{{ port.ipv6 ? 'Yes' : 'No'}}</td>
+        <td class="pl-4" style="max-width: 2em;">{{port.protocol}}</td>
+        <td>{{port.localAddr}}</td>
+        <td class="text-center" style="max-width: 2em;">{{ port.ipv6 ? 'Yes' : 'No'}}</td>
         <td class="text-right">{{port.local}}</td>
         <td>{{port.status}}</td>
         <td class="text-right">{{port.pid}}</td>

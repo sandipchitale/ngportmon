@@ -116,11 +116,11 @@
       },
       {
         "file": ".nx/cache/file-map.json",
-        "hash": "3690410128080768994"
+        "hash": "4907400974429034257"
       },
       {
         "file": ".nx/cache/lockfile.hash",
-        "hash": "13201540905372128397"
+        "hash": "10169225514068986666"
       },
       {
         "file": ".nx/cache/parsed-lock-file.json",
@@ -172,7 +172,7 @@
       },
       {
         "file": "app/main.ts",
-        "hash": "6477355809826469434"
+        "hash": "13495622089609934780"
       },
       {
         "file": "app/package-lock.json",
@@ -212,7 +212,7 @@
       },
       {
         "file": "src/app/app.component.html",
-        "hash": "2975161733312762393"
+        "hash": "16484441943057760292"
       },
       {
         "file": "src/app/app.component.scss",
@@ -224,7 +224,7 @@
       },
       {
         "file": "src/app/app.component.ts",
-        "hash": "2581772054197721399"
+        "hash": "1845684813175892417"
       },
       {
         "file": "src/app/app.module.ts",
@@ -280,7 +280,7 @@
       },
       {
         "file": "src/app/shared/shared.module.ts",
-        "hash": "2563730348732583076"
+        "hash": "1838785703226014508"
       },
       {
         "file": "src/assets/.gitkeep",

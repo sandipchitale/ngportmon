@@ -19,6 +19,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TreeModule } from 'primeng/tree';
 import { TreeTableModule } from 'primeng/treetable';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { SidebarModule } from 'primeng/sidebar';
 import { SplitterModule } from 'primeng/splitter';
 
@@ -31,6 +32,7 @@ import { SplitterModule } from 'primeng/splitter';
     InputTextModule,
     InputTextareaModule,
     OverlayModule,
+    SelectButtonModule,
     SidebarModule,
     SplitterModule,
     TableModule,
@@ -47,6 +49,7 @@ import { SplitterModule } from 'primeng/splitter';
     InputTextModule,
     InputTextareaModule,
     OverlayModule,
+    SelectButtonModule,
     SidebarModule,
     SplitterModule,
     TableModule,
