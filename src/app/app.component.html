@@ -62,13 +62,21 @@
   </p-toolbar>
   <p-toolbar class="infobar" styleClass="drag">
     <div class="p-toolbar-group-left">
-      <span class="ml-1">Count : {{ ports.length}}</span>
+      <p-selectButton
+        styleClass="no-drag"
+        [options]="portOrRaw"
+        [(ngModel)]="selectedPortOrRaw"
+        optionLabel="name"
+        optionValue="value">
+      </p-selectButton>
     </div>
     <div class="p-toolbar-group-right">
-      <span class="mr-2">Updated : {{ updatedAt | date: 'hh:mm:ss a (MM/dd/yyyy)' }}</span>
+      <span class="mr-2">Count : {{ ports.length}}</span>
+      <span class="ml-2">Updated : {{ updatedAt | date: 'hh:mm:ss a (MM/dd/yyyy)' }}</span>
     </div>
   </p-toolbar>
   <p-table
+    *ngIf="selectedPortOrRaw === 0"
     [value]="ports"
     class="portstable"
     styleClass="no-drag p-datatable-sm p-datatable-gridlines"
@@ -79,14 +87,15 @@
     (sortFunction)="customSort($event)"
     [customSort]="true"
     sortField="local"
-    [sortOrder]="1"
-  >
+    [sortOrder]="1">
     <ng-template pTemplate="header">
       <tr>
-        <th pResizableColumn pSortableColumn="protocol" class="pl-4" style="max-width: 2em;">Protocol <p-sortIcon field="protocol"></p-sortIcon></th>
-        <th pResizableColumn pSortableColumn="localAddr"            >Local Addr<p-sortIcon field="localAddr"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="protocol" class="pl-4" style="max-width: 3rem;">Proto<p-sortIcon field="protocol"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="ipv6"     class="text-center" style="max-width: 2rem;">IPv6<p-sortIcon field="ipv6"></p-sortIcon></th>
-        <th pResizableColumn pSortableColumn="local"    class="text-right">Local Port <p-sortIcon field="local"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="localAddr"            >Local Addr<p-sortIcon field="localAddr"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="local"    class="text-right" style="background-color: var(--orange-100);">Local Port<p-sortIcon field="local"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="remoteAddrAndPort"
+                                                        class="text-right">Remote Addr Port<p-sortIcon field="remoteAddrAndPort"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="status"   >Status <p-sortIcon field="status"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="pid"      class="text-right">PID <p-sortIcon field="pid"></p-sortIcon></th>
         <th pResizableColumn                            class="text-center" style="max-width: 1.5rem;">&nbsp;</th>
@@ -94,10 +103,11 @@
     </ng-template>
     <ng-template pTemplate="body" let-port>
       <tr>
-        <td class="pl-4" style="max-width: 2em;">{{port.protocol}}</td>
-        <td>{{port.localAddr}}</td>
+        <td class="pl-4" style="max-width: 3rem;">{{port.protocol}}</td>
         <td class="text-center" style="max-width: 2em;">{{ port.ipv6 ? 'Yes' : 'No'}}</td>
-        <td class="text-right">{{port.local}}</td>
+        <td>{{port.localAddr}}</td>
+        <td class="text-right" style="background-color: var(--orange-100);">{{port.local}}</td>
+        <td class="text-right">{{port.remoteAddrAndPort}}</td>
         <td>{{port.status}}</td>
         <td class="text-right">{{port.pid}}</td>
         <td class="text-center" style="max-width: 1.5rem;">
@@ -110,4 +120,9 @@
       </tr>
     </ng-template>
   </p-table>
+  <pre
+    *ngIf="selectedPortOrRaw === 1"
+    class="portstable"
+    style="overflow-y: scroll;">{{raw}}
+  </pre>
 </div>

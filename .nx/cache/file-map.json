@@ -116,7 +116,7 @@
       },
       {
         "file": ".nx/cache/file-map.json",
-        "hash": "4907400974429034257"
+        "hash": "8589370921523948249"
       },
       {
         "file": ".nx/cache/lockfile.hash",
@@ -212,7 +212,7 @@
       },
       {
         "file": "src/app/app.component.html",
-        "hash": "16484441943057760292"
+        "hash": "6943120596400904239"
       },
       {
         "file": "src/app/app.component.scss",
@@ -224,7 +224,7 @@
       },
       {
         "file": "src/app/app.component.ts",
-        "hash": "1845684813175892417"
+        "hash": "11826611375084148368"
       },
       {
         "file": "src/app/app.module.ts",

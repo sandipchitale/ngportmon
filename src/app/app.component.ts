@@ -25,6 +25,8 @@ const DARK_THEME =  'dark-theme';
 export class AppComponent implements OnInit {
   darkTheme = false;
 
+  raw: string = '';
+
   public onlyPorts = '2910,4200,5432,8080,8765';
   public monitor = true;
   public wait = false;
@@ -39,6 +41,13 @@ export class AppComponent implements OnInit {
   ];
 
   _selectedConnectionStatuses: Array<number> = [0];
+
+  portOrRaw: any[] = [
+    { name: 'Ports', value: 0 },
+    { name: 'Netstat',  value: 1 }
+  ];
+
+  selectedPortOrRaw: number = 0;
 
   public updatedAt = new Date();
 
@@ -239,37 +248,45 @@ export class AppComponent implements OnInit {
           const protocolIndex = 0;
           const localAddressIndex = (os.platform() === 'win32' ? 1 : 3);
           const statusIndex = (os.platform() === 'win32' ? 3 : 5);
+          const remoteAddrAndPortIndex = (os.platform() === 'win32' ? 2 : 4);
           const pidIndex = (os.platform() === 'win32' ?  4 : (os.platform() === 'darwin' ? 8 : 6));
 
-          portLinesArray.forEach(portLine => {
-            const portLineParts = portLine.split(/\s+/);
-            const rawPort = portLineParts[localAddressIndex];
-            const ipv6 = (os.platform() === 'darwin' ? portLineParts[0] === 'tcp6' : rawPort.startsWith('['));
-            const localAddr = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/(.+)\.\d+/, '$1') : portLineParts[localAddressIndex].replace(/(.+):\d+/, '$1'));
-            const port = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/.+\.(\d+)/, '$1') : portLineParts[localAddressIndex].replace(/.+:(\d+)/, '$1'));
-            if (onlyPortsArray.length === 0 || onlyPortsArray.includes(port)) {
-              if (
-                (this._selectedConnectionStatuses.indexOf(0) !== -1 && portLineParts[statusIndex] === this.LISTENING) ||
-                (this._selectedConnectionStatuses.indexOf(1) !== -1 && portLineParts[statusIndex] === 'ESTABLISHED') ||
-                (this._selectedConnectionStatuses.indexOf(2) !== -1 && portLineParts[statusIndex] === 'CLOSE_WAIT') ||
-                (this._selectedConnectionStatuses.indexOf(3) !== -1 && portLineParts[statusIndex] === 'TIME_WAIT')
-              ) {
-                if (os.platform() !== 'win32') {
-                  portLineParts[pidIndex] =  portLineParts[pidIndex].replace(/\/.+/, '')
+          const rawPorts: Array<string> = [];
+          try {
+            portLinesArray.forEach(portLine => {
+              const portLineParts = portLine.split(/\s+/);
+              const rawPort = portLineParts[localAddressIndex];
+              const ipv6 = (os.platform() === 'darwin' ? portLineParts[0] === 'tcp6' : rawPort.startsWith('['));
+              const localAddr = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/(.+)\.\d+/, '$1') : portLineParts[localAddressIndex].replace(/(.+):\d+/, '$1'));
+              const port = (os.platform() === 'darwin' ? portLineParts[localAddressIndex].replace(/.+\.(\d+)/, '$1') : portLineParts[localAddressIndex].replace(/.+:(\d+)/, '$1'));
+              if (onlyPortsArray.length === 0 || onlyPortsArray.includes(port)) {
+                if (
+                  (this._selectedConnectionStatuses.indexOf(0) !== -1 && portLineParts[statusIndex] === this.LISTENING) ||
+                  (this._selectedConnectionStatuses.indexOf(1) !== -1 && portLineParts[statusIndex] === 'ESTABLISHED') ||
+                  (this._selectedConnectionStatuses.indexOf(2) !== -1 && portLineParts[statusIndex] === 'CLOSE_WAIT') ||
+                  (this._selectedConnectionStatuses.indexOf(3) !== -1 && portLineParts[statusIndex] === 'TIME_WAIT')
+                ) {
+                  rawPorts.push(portLine)
+                  if (os.platform() !== 'win32') {
+                    portLineParts[pidIndex] =  portLineParts[pidIndex].replace(/\/.+/, '')
+                  }
+                  this.ports.push(
+                    {
+                      protocol: portLineParts[protocolIndex],
+                      localAddr: localAddr,
+                      ipv6: ipv6,
+                      local: port,
+                      remoteAddrAndPort: portLineParts[remoteAddrAndPortIndex],
+                      status: portLineParts[statusIndex],
+                      pid: portLineParts[pidIndex]
+                    },
+                  );
                 }
-                this.ports.push(
-                  {
-                    protocol: portLineParts[protocolIndex],
-                    localAddr: localAddr,
-                    ipv6: ipv6,
-                    local: port,
-                    status: portLineParts[statusIndex],
-                    pid: portLineParts[pidIndex]
-                  },
-                );
               }
-            }
-          });
+            });
+          } finally {
+            this.raw = rawPorts.join('\n');
+          }
         });
       });
     });
