@@ -37,6 +37,14 @@
         optionLabel="name"
         optionValue="value">
       </p-selectButton>
+      <p-selectButton
+        styleClass="no-drag"
+        [options]="ip4or6"
+        [(ngModel)]="selectedIp4or6"
+        [multiple]="true"
+        optionLabel="name"
+        optionValue="value">
+      </p-selectButton>
     </div>
     <div class="p-toolbar-group-right">
       <p-button
@@ -98,7 +106,7 @@
                                                         class="text-right">Remote Addr Port<p-sortIcon field="remoteAddrAndPort"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="status"   >Status <p-sortIcon field="status"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="pid"      class="text-right">PID <p-sortIcon field="pid"></p-sortIcon></th>
-        <th pResizableColumn                            class="text-center" style="max-width: 1.5rem;">&nbsp;</th>
+        <th pResizableColumn                            class="text-center" style="max-width: 2rem;">&nbsp;</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-port>
@@ -110,7 +118,7 @@
         <td class="text-right">{{port.remoteAddrAndPort}}</td>
         <td>{{port.status}}</td>
         <td class="text-right">{{port.pid}}</td>
-        <td class="text-center" style="max-width: 1.5rem;">
+        <td class="text-center" style="max-width: 2rem;">
           <p-button
             styleClass="no-drag p-button-danger"
             icon="pi pi-power-off"

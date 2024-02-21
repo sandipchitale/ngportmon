@@ -49,6 +49,13 @@ export class AppComponent implements OnInit {
 
   selectedPortOrRaw: number = 0;
 
+  ip4or6: any[] = [
+    { name: 'IPv4', value: 0 },
+    { name: 'IPv6',  value: 1 }
+  ];
+
+  _selectedIp4or6: Array<number> = [0, 1];
+
   public updatedAt = new Date();
 
   public eportmonSettingsFilePath = path.join(os.homedir(), '.portmon.json');
@@ -102,6 +109,15 @@ export class AppComponent implements OnInit {
 
   public set selectedConnectionStatuses(value: Array<number>) {
     this._selectedConnectionStatuses = value;
+    this.doNetstat();
+  }
+
+  public get selectedIp4or6(): Array<number> {
+    return this._selectedIp4or6;
+  }
+
+  public set selectedIp4or6(value: Array<number>) {
+    this._selectedIp4or6 = value;
     this.doNetstat();
   }
 
@@ -266,6 +282,14 @@ export class AppComponent implements OnInit {
                   (this._selectedConnectionStatuses.indexOf(2) !== -1 && portLineParts[statusIndex] === 'CLOSE_WAIT') ||
                   (this._selectedConnectionStatuses.indexOf(3) !== -1 && portLineParts[statusIndex] === 'TIME_WAIT')
                 ) {
+                  if (this._selectedIp4or6.indexOf(0) === -1 && !ipv6) {
+                    // Not IPv4
+                    return;
+                  }
+                  if (this._selectedIp4or6.indexOf(1) === -1 && ipv6) {
+                    // Not IPv6
+                    return;
+                  }
                   rawPorts.push(portLine)
                   if (os.platform() !== 'win32') {
                     portLineParts[pidIndex] =  portLineParts[pidIndex].replace(/\/.+/, '')
