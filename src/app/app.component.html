@@ -93,7 +93,7 @@
         <th pResizableColumn pSortableColumn="protocol" class="pl-4" style="max-width: 3rem;">Proto<p-sortIcon field="protocol"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="ipv6"     class="text-center" style="max-width: 2rem;">IPv6<p-sortIcon field="ipv6"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="localAddr"            >Local Addr<p-sortIcon field="localAddr"></p-sortIcon></th>
-        <th pResizableColumn pSortableColumn="local"    class="text-right" style="background-color: var(--orange-100); color: var(--orange-900);">Local Port<p-sortIcon field="local"></p-sortIcon></th>
+        <th pResizableColumn pSortableColumn="local"    class="text-right" style="background-color: #fc8472; color: var(--orange-900);">Local Port<p-sortIcon field="local"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="remoteAddrAndPort"
                                                         class="text-right">Remote Addr Port<p-sortIcon field="remoteAddrAndPort"></p-sortIcon></th>
         <th pResizableColumn pSortableColumn="status"   >Status <p-sortIcon field="status"></p-sortIcon></th>
@@ -106,7 +106,7 @@
         <td class="pl-4" style="max-width: 3rem;">{{port.protocol}}</td>
         <td class="text-center" style="max-width: 2em;">{{ port.ipv6 ? 'Yes' : 'No'}}</td>
         <td>{{port.localAddr}}</td>
-        <td class="text-right" style="background-color: var(--orange-100); color: var(--orange-900);">{{port.local}}</td>
+        <td class="text-right" style="background-color: #fc8472; color: var(--orange-900);">{{port.local}}</td>
         <td class="text-right">{{port.remoteAddrAndPort}}</td>
         <td>{{port.status}}</td>
         <td class="text-right">{{port.pid}}</td>

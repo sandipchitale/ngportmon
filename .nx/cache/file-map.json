@@ -116,7 +116,7 @@
       },
       {
         "file": ".nx/cache/file-map.json",
-        "hash": "8589370921523948249"
+        "hash": "17060393499407222026"
       },
       {
         "file": ".nx/cache/lockfile.hash",
@@ -156,7 +156,7 @@
       },
       {
         "file": "README.md",
-        "hash": "13728268625905651662"
+        "hash": "1298486050959792599"
       },
       {
         "file": "_config.yml",
@@ -203,6 +203,10 @@
         "hash": "13612081022903678068"
       },
       {
+        "file": "ngportmon.png",
+        "hash": "13441116629391414264"
+      },
+      {
         "file": "package-lock.json",
         "hash": "18374347151788454358"
       },
@@ -212,7 +216,7 @@
       },
       {
         "file": "src/app/app.component.html",
-        "hash": "6943120596400904239"
+        "hash": "16216009617383817544"
       },
       {
         "file": "src/app/app.component.scss",
@@ -224,7 +228,7 @@
       },
       {
         "file": "src/app/app.component.ts",
-        "hash": "11826611375084148368"
+        "hash": "17456568805642234037"
       },
       {
         "file": "src/app/app.module.ts",
