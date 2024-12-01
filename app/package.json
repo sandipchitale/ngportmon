@@ -1,0 +1,13 @@
+{
+  "name": "ngportmon",
+  "description": "Angular 18 PrimeNG 18 TailwindCSS based Port Monitor.",
+  "author": {
+    "name": "Sandip Chitale",
+    "email": "sandipchitale@gmail.com"
+  },
+  "version": "1.0.0",
+  "main": "main.js",
+  "private": true,
+  "dependencies": {
+  }
+}

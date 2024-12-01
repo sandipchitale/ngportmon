@@ -1,0 +1,124 @@
+<div class="drag w-screen h-screen p-4 grid grid-rows-[auto_auto_1fr] gap-y-2 content-center">
+  <div class="flex items-center">
+    <img src="assets/icons/eportmon.png" class="mr-2" width="32" alt="Portmon">
+    <span class="mr-2 text-xl">Monitor Ports: </span>
+    <input pInputText
+           type="text"
+           class="no-drag mr-2 px-2 py-1 flex-1 text-lg border rounded"
+           [(ngModel)]="onlyPorts"
+           (keydown)="portsChanged($event)"/>
+    <p-togglebutton class="no-drag mr-2"
+                    [(ngModel)]="monitor"
+                    [onLabel]="''"
+                    [offLabel]="''"
+                    [onIcon]="'pi pi-pause'"
+                    [offIcon]="'pi pi-play'"
+                    (onChange)="toggleMonitoring($event)">
+    </p-togglebutton>
+    <button pButton (click)="doNetstat()" class="no-drag mr-2" severity="secondary"><i class="pi pi-refresh"></i>
+    </button>
+    <p-togglebutton class="no-drag mr-2"
+                    [(ngModel)]="darkTheme"
+                    [onLabel]="''"
+                    [offLabel]="''"
+                    [onIcon]="'pi pi-sun'"
+                    [offIcon]="'pi pi-moon'">
+    </p-togglebutton>
+    <button pButton (click)="gitHub()" class="no-drag mx-2" severity="secondary"><i class="pi pi-github"></i></button>
+    <button pButton (click)="quit()" class="no-drag" severity="danger"><i class="pi pi-times"></i></button>
+  </div>
+  <div class="flex items-center">
+    <p-selectbutton class="no-drag mr-2"
+                    [options]="connectionStatuses"
+                    [(ngModel)]="selectedConnectionStatuses"
+                    [multiple]="true"
+                    optionLabel="name"
+                    optionValue="value">
+    </p-selectbutton>
+    <p-selectbutton class="no-drag mr-2"
+                    [options]="ip46"
+                    [(ngModel)]="selectedIp46"
+                    [multiple]="true"
+                    optionLabel="name"
+                    optionValue="value">
+    </p-selectbutton>
+    <span class="ml-auto mr-2">Count : {{ ports.length}}</span>
+    <span class="ml-2">Updated : {{ updatedAt | date: 'hh:mm:ss a (MM/dd/yyyy)' }}</span>
+  </div>
+  <main class="grid w-full h-full">
+    <p-tabs class="no-drag" value="0">
+      <p-tablist>
+        <p-tab value="0">Portmon</p-tab>
+        <p-tab value="1">Netstat</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="0">
+          <div class="grid grid-cols-1 grid-rows-1">
+            <p-table
+              [value]="ports"
+              styleClass="no-drag p-datatable-sm p-datatable-gridlines min-h-[680px]"
+              [resizableColumns]="true"
+              (sortFunction)="customSort($event)"
+              [customSort]="true"
+              [scrollable]="true"
+              scrollHeight="680px"
+              sortField="local"
+              [sortOrder]="1"
+              stripedRows>
+              <ng-template #header>
+                <tr>
+                  <th pResizableColumn pSortableColumn="protocol" class="pl-4 max-w-[3rem]">Proto
+                    <p-sortIcon field="protocol"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn pSortableColumn="ipv6" class="text-center max-w-[2rem]">IPv6
+                    <p-sortIcon field="ipv6"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn pSortableColumn="localAddr">Local Addr
+                    <p-sortIcon field="localAddr"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn pSortableColumn="local" class="text-right bg-red-100 text-color-red-800">Local
+                    Port
+                    <p-sortIcon field="local"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn pSortableColumn="remoteAddrAndPort"
+                      class="text-right">Remote Addr Port
+                    <p-sortIcon field="remoteAddrAndPort"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn pSortableColumn="status">Status
+                    <p-sortIcon field="status"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn pSortableColumn="pid" class="text-right">PID
+                    <p-sortIcon field="pid"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn class="text-center max-w-[2rem]">&nbsp;</th>
+                </tr>
+              </ng-template>
+              <ng-template #body let-port>
+                <tr>
+                  <td class="pl-4 max-w-[3rem]">{{ port.protocol }}</td>
+                  <td class="text-center max-w-[2rem]">{{ port.ipv6 ? 'Yes' : 'No' }}</td>
+                  <td>{{ port.localAddr }}</td>
+                  <td class="text-right bg-red-100 text-red-800">{{ port.local }}</td>
+                  <td class="text-right">{{ port.remoteAddrAndPort }}</td>
+                  <td>{{ port.status }}</td>
+                  <td class="text-right">{{ port.pid }}</td>
+                  <td class="text-center max-w-[2rem]">
+                    <p-button
+                      styleClass="no-drag"
+                      severity="danger"
+                      icon="pi pi-power-off"
+                      (click)="killProcess($event, port.pid)">
+                    </p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+          <pre class="no-drag px-4 overflow-y-scroll">{{ raw }}</pre>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </main>
+</div>
