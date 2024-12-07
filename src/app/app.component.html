@@ -15,6 +15,7 @@
                     [offIcon]="'pi pi-play'"
                     (onChange)="toggleMonitoring($event)">
     </p-togglebutton>
+    <button pButton (click)="gitHub()" class="no-drag mx-2" severity="secondary"><i class="pi pi-github"></i></button>
     <button pButton (click)="doNetstat()" class="no-drag mr-2" severity="secondary"><i class="pi pi-refresh"></i>
     </button>
     <p-togglebutton class="no-drag mr-2"
@@ -24,7 +25,15 @@
                     [onIcon]="'pi pi-sun'"
                     [offIcon]="'pi pi-moon'">
     </p-togglebutton>
-    <button pButton (click)="gitHub()" class="no-drag mx-2" severity="secondary"><i class="pi pi-github"></i></button>
+    <button pButton class="no-drag mr-2" severity="secondary" (click)="minimize()" title="Minimize"><i class="pi pi-window-minimize"></i></button>
+    <p-togglebutton class="no-drag mr-2"
+                    [(ngModel)]="restoreMaximize"
+                    [onLabel]="''"
+                    [offLabel]="''"
+                    [onIcon]="'pi pi-stop'"
+                    [offIcon]="'pi pi-window-maximize'"
+                    (onChange)="toggleRestoreMaximize()">
+    </p-togglebutton>
     <button pButton (click)="quit()" class="no-drag" severity="danger"><i class="pi pi-times"></i></button>
   </div>
   <div class="flex items-center">

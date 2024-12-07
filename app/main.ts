@@ -1,4 +1,4 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow, ipcMain, screen} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -16,12 +16,23 @@ function createWindow(): BrowserWindow {
     height: 900,
     frame: false,
     center: true,
-    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve),
       contextIsolation: false,
     },
+  });
+
+  ipcMain.on('minimize', () => {
+    win?.minimize();
+  });
+
+  ipcMain.on('toggle-restore-maximize', () => {
+    if (win?.isMaximized()) {
+      win?.restore();
+    } else {
+      win?.maximize();
+    }
   });
 
   if (serve) {

@@ -19,6 +19,7 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {ToolbarModule} from 'primeng/toolbar';
 import {SortEvent} from 'primeng/api';
 import {ToggleButtonChangeEvent} from "primeng/togglebutton/togglebutton.interface";
+import {ipcRenderer} from "electron";
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   private readonly document = inject(DOCUMENT);
 
   _darkTheme = false;
+
+  restoreMaximize = false;
 
   LISTENING: string = os.platform() === 'win32' ? 'LISTENING' : 'LISTEN';
 
@@ -340,6 +343,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   async gitHub() {
     await this.electronService.shell.openExternal('https://github.com/sandipchitale/ngportmon/');
+  }
+
+
+  toggleRestoreMaximize() {
+    ipcRenderer.send('toggle-restore-maximize');
+  }
+
+  minimize() {
+    ipcRenderer.send('minimize');
   }
 
   quit() {
