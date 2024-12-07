@@ -97,11 +97,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      this.document.querySelector('html')?.classList.remove('dark-theme');
       this.darkTheme = false;
     } else {
-      this.document.querySelector('html')?.classList.add('dark-theme');
-      this.darkTheme = false;
+      this.darkTheme = true;
     }
   }
 
